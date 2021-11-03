@@ -1,0 +1,29 @@
+
+Crando database
+```
+npx sequelize-cli db:create
+```
+
+Criando uma migration
+```
+npx sequelize-cli migration:generate --name create-empresas
+```
+add coluna a uma tabema
+```
+npx sequelize-cli migration:generate --name alter-clientes-telefone
+```
+ex: 
+    await queryInterface.addColumn('clientes', 'telefone', {
+      type: Sequelize.STRING(11),
+      allowNull: true
+    });
+ 
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.removeColumn('clientes', 'telefone');
+  }
+};
+
+executando migrations
+```
+npx sequelize-cli db:migrate
+```
