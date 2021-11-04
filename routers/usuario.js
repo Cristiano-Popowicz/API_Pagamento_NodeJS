@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router();
 var bcrypt = require('bcryptjs');
+// const authetication = require('../middleware/authentication');
 
 const Usuario = require('../models/usuario')
 
@@ -10,15 +11,16 @@ router.get('/',((req, res, next) => {
     })
 }))
 
-router.get('/listar',((req, res, next) => {
-    Usuario.findAll().then((usuario) => {
+router.get('/listar', ((req, res, next) => {
+    Usuario.findAll()
+    .then((usuario) => {
         res.status(200).send({
             response: usuario
-        }).catch((erro) =>{
-            res.status(500).send({
-                error: erro,
-                response: null
-            })
+        })
+    }).catch((erro) => {
+        res.status(500).send({
+            error: erro,
+            response: null
         })
     })
 }))

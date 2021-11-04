@@ -12,17 +12,18 @@ router.get('/',((req, res, next) => {
 }))
 
 router.get('/listar',authetication, ((req, res, next) => {
-    Empresa.findAll().then((empresa) => {
+    Empresa.findAll()
+    .then((empresa) => {
         res.status(200).send({
             response: empresa
-        }).catch((erro) =>{
-            res.status(500).send({
-                error: erro,
-                response: null
-            })
+        })
+    }).catch((erro) => {
+        res.status(500).send({
+            error: erro,
+            response: null
         })
     })
-}))
+}))    
 
 router.get('/buscarByToken', authetication ,((req, res, next) => {
     Empresa.findOne({
