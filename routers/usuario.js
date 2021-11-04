@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router();
 var bcrypt = require('bcryptjs');
+var md5 = require('md5');
 // const authetication = require('../middleware/authentication');
 
 const Usuario = require('../models/usuario')
@@ -56,7 +57,7 @@ router.post("/gravar", ((req, res, next) => {
     Usuario.create({
         us_empresa: req.body.empresa,
         us_email: req.body.email,
-        us_senha: req.body.senha,
+        us_senha: md5(6),
         us_nome: req.body.nome,
         us_depto: req.body.depto,
         us_nivel: req.body.nivel,
