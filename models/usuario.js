@@ -38,7 +38,7 @@ const Usuarios = db.sequelize.define('usuarios',{
         type: db.Sequelize.CHAR(1)
     },
     us_tela_inicio: {
-        type: db.Sequelize.DATE
+        type: db.Sequelize.CHAR(1)
     },
     us_tela_config: {   
         type: db.Sequelize.CHAR(1)
