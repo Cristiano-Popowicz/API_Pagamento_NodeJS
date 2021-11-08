@@ -4,7 +4,8 @@ var bcrypt = require('bcryptjs');
 var md5 = require('md5');
 // const authetication = require('../middleware/authentication');
 
-const Usuario = require('../models/usuario')
+const Usuario = require('../models/usuario');
+const Empresa = require('../models/empresa');
 
 router.get('/',((req, res, next) => {
     res.status(200).send({
@@ -53,30 +54,55 @@ router.post("/gravar", ((req, res, next) => {
             mensagen: 'Nome não preenchido corretamente'
         })
     }
+
+    var tela = req.body.tela_config == true ? 'S' : 'N';
+    var ativo = req.body.ativo == true ? 'S' : 'N';
+    var user = req.body.tela_usuarios == true ? 'S' : 'N';
+    var transacoes = req.body.tela_transacoes == true ? 'S' : 'N';
+    var saque = req.body.tela_saque == true ? 'S' : 'N';
+    var senha = md5(req.body.senha)
     
-    Usuario.create({
-        us_empresa: req.body.empresa,
-        us_email: req.body.email,
-        us_senha: md5(6),
-        us_nome: req.body.nome,
-        us_depto: req.body.depto,
-        us_nivel: req.body.nivel,
-        us_ativo: req.body.ativo,
-        us_tela_inicio: req.body.tela_inicio,
-        us_tela_config: req.body.tela_config,
-        us_tela_usuarios: req.body.tela_usuarios,
-        us_tela_transacoes: req.body.tela_transacoes,
-        us_tela_saque: req.body.tela_saque,
-    }).then(function(){
-        res.status(201).send({
-            mensagen: 'SUCCESS'
+    Empresa.findOne({
+        attributes: 
+            [ 
+                'em_cod',
+                'em_token'
+            ],
+        where:{
+            em_token: req.body.empresa
+        },
+    }).then((emp)=>{
+        Usuario.create({
+            us_empresa: emp.em_cod,
+            us_email: req.body.email,
+            us_senha: senha,
+            us_nome: req.body.nome,
+            us_depto: req.body.depto,
+            us_nivel: req.body.nivel,
+            us_ativo: ativo,
+            us_tela_inicio: req.body.tela_inicio,
+            us_tela_config: tela,
+            us_tela_usuarios: user,
+            us_tela_transacoes: transacoes,
+            us_tela_saque: saque,
+        }).then(function(){
+            res.status(201).send({
+                mensagen: 'SUCCESS'
+            })
+        }).catch(function(erro){
+            res.status(500).send({
+                error: erro,
+                response: null
+            })
         })
-    }).catch(function(erro){
+    }).catch((err)=>{
         res.status(500).send({
-            error: erro,
+            error: err,
             response: null
         })
     })
+    
+    
 }))
 
 module.exports = router

@@ -118,7 +118,7 @@ router.post("/gravar", ((req, res, next) => {
         em_cadastro: new Date,
         em_liberado_ate: new Date,
         em_aceita_termos: req.body.aceita_termos,
-        em_token: md5(6),
+        em_token: md5(),
     }).then(function(){
         res.status(201).send({
             mensagen: 'SUCCESS'
