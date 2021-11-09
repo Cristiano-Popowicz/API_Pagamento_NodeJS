@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router();
 var bcrypt = require('bcryptjs');
 var md5 = require('md5');
-// const authetication = require('../middleware/authentication');
+const authetication = require('../middleware/authentication');
 
 const Usuario = require('../models/usuario');
 const Empresa = require('../models/empresa');
@@ -36,7 +36,7 @@ router.get("/adm-usuarios", function(req, res){
    //res.sendFile(__dirname + "/html/")
 })
 
-router.post("/gravar", ((req, res, next) => {
+router.post("/gravar", authetication , ((req, res, next) => { // cadé a segurança aqui 
     if(!req.body.email){
         return res.status(500).send({
             mensagen: 'E-mail não preenchido corretamente'

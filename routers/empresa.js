@@ -42,7 +42,7 @@ router.get('/buscarByToken', authetication ,((req, res, next) => {
     })
 }))
 
-router.post("/gravar", ((req, res, next) => {
+router.post("/gravar", ((req, res, next) => { // cade a segurança aqui
     if(!req.body.cpfcnpj){
         return res.status(500).send({
             mensagen: 'CPF ou CNPJ não preenchido corretamente'
