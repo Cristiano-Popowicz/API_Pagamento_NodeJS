@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
 var md5 = require('md5');
-const authetication = require('../middleware/authentication')
+const authetication = require('../middleware/authentication');
 
 const Empresa = require('../models/empresa')
 
@@ -25,7 +25,7 @@ router.get('/listar',authetication, ((req, res, next) => {
     })
 }))    
 
-router.get('/buscarByToken', authetication ,((req, res, next) => {
+router.get('/buscarByToken', authetication, ((req, res, next) => {
     Empresa.findOne({
         where: {
             em_token: req.body.token
