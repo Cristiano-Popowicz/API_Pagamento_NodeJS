@@ -11,10 +11,10 @@ router.get('/',((req, res, next) => {
     })
 }))
 
-router.get('/listar',authetication, ((req, res, next) => {
+router.get('/listar', authetication, ((req, res, next) => {
     Empresa.findAll()
     .then((empresa) => {
-        res.status(200).send({
+        res.status(201).send({
             response: empresa
         })
     }).catch((erro) => {
@@ -31,7 +31,7 @@ router.get('/buscarByToken', authetication, ((req, res, next) => {
             em_token: req.body.token
         }
     }).then((empresa) => {
-        res.status(200).send({
+        res.status(201).send({
             response: empresa
         })
     }).catch((erro) =>{
@@ -42,7 +42,9 @@ router.get('/buscarByToken', authetication, ((req, res, next) => {
     })
 }))
 
-router.post("/gravar", ((req, res, next) => { // cade a segurança aqui
+router.post("/gravar", ((req, res, next) => {
+    
+    var token = md5(req.body.cpfcnpj)
     if(!req.body.cpfcnpj){
         return res.status(500).send({
             mensagen: 'CPF ou CNPJ não preenchido corretamente'
@@ -118,7 +120,7 @@ router.post("/gravar", ((req, res, next) => { // cade a segurança aqui
         em_cadastro: new Date,
         em_liberado_ate: new Date,
         em_aceita_termos: req.body.aceita_termos,
-        em_token: md5(),
+        em_token: token,
     }).then(function(){
         res.status(201).send({
             mensagen: 'SUCCESS'
